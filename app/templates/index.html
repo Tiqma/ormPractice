@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>ORM Tränings Projekt</title>
+</head>
+<body>
+    <h1>Hej</h1>
+    <p>Här kommer jag att träna på att bygga upp en databas med hjälp
+        av sqlAlchemy och orm
+    </p>
+
+    <ul>
+        {% for user in users %}
+            <li>{{ user.username }} - {{ user.email }}</li>
+        {% endfor %}
+    </ul>
+
+    <form action="{{ url_for('main.add_user') }}" method="get">
+        <input type="text" name="username" placeholder="Användarnamn" required>
+        <input type="email" name="email" placeholder="E-post" required>
+        <button type="submit">Lägg till användare</button>
+    </form>
+
+    <form action="{{ url_for('main.choose_color_form') }}" method="get">
+        <select name="user_id" required>
+            <option value="">Välj användare</option>
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+            {% endfor %}
+        </select>
+        <select name="color_name" required>
+            <option value="">Välj färg</option>
+            {% for color in colors %}
+                <option value="{{ color.name }}">{{ color.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Välj färg</button>
+    </form>
+
+    <form action="{{ url_for('main.reset_colors') }}" method="get">
+        <button type="submit">Återställ färg</button>
+    </form>
+</body>
+</html>

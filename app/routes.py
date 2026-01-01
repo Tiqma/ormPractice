@@ -10,13 +10,24 @@ def home():
     colors = Color.query.all()
     return render_template("index.html", users=users, colors=colors)
 
-@main.route("/add", methods=["GET"])
+@main.route("/add_user_route", methods=["GET"])
 def add_user():
     username = request.args.get("username")
     email = request.args.get("email")
     if username and email:
         user = User(username=username, email=email)
         db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('main.home'))
+    return "Invalid input."
+
+@main.route("/remove_user_route", methods=["POST"])
+def remove_user():
+    username = request.form.get("username")
+
+    user = User.query.filter_by(username=username).first()
+    if username:
+        db.session.delete(user)
         db.session.commit()
         return redirect(url_for('main.home'))
     return "Invalid input."
